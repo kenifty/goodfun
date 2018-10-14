@@ -1,0 +1,122 @@
+
+<!-- saved from url=(0058)https://wqs.jd.com/portal/wx/seckill_m/index.shtml#st=1000 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% load staticfiles %}
+    <title>商城秒杀</title>
+    <meta name="x5-cache" content="disable">
+    <meta name="x-pub" content="">
+    <meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover">
+<meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+<script type="text/javascript">
+function __reloadResource(c){try{var l=document.head||document.getElementsByTagName("head")[0];var b="wq.360buyimg.com";var d=/img\d{1,2}.360buyimg.com/;if(c&&/link/i.test(c.tagName)){if(!c.href||c.href.indexOf(b)==-1){return}var a=document.createElement("link");a.rel="stylesheet";a.href=c.href.replace(b,"wqimg.jd.com");l.appendChild(a)}if(c&&/script/i.test(c.tagName)){if(!c.src||c.src.indexOf(b)==-1){return}var e=document.createElement("script");e.type="text/javascript";e.src=c.src.replace(b,"wqimg.jd.com");l.appendChild(e)}if(c&&/img/i.test(c.tagName)){if(!c.src||!d.test(c.src)){return}c.src=c.src.replace(d,"wqimg.jd.com/imgproxy").replace(".jpg.jpg",".jpg").replace(".png.png",".png")}}catch(e){}};
+</script>
+    <script>
+       window._PFM_TIMING = [[1361, new Date()]];
+       window.heatMap = true;
+    </script>
+
+    <!-- #include virtual="/sinclude/cssi/fd/h5/wx/seckill/index.shtml" -->
+<link combofile="/fd/h5/wx/seckill/index.shtml" rel="stylesheet" href="{% static 'css/index.min_f89eeb50.css' %}" onerror="__reloadResource(this)">
+
+
+    <script>
+        _PFM_TIMING[1] = new Date();
+    </script>
+<style>img[init-src] { opacity:0; }img[lazyloadimg] { opacity:0; }</style><link rel="stylesheet" type="text/css" charset="utf-8" href="{% static 'css/commonHeader.min.css' %}"></head>
+<body>
+
+
+
+<script type="text/javascript">
+    if(window._unsearch && window.JD){
+        JD.sendJs('//wq.360buyimg.com/js/common/dest/wq.unitySearchbar.ea333fcb08.js');
+        if(JD.device.scene == "qq"){
+
+        }
+
+        if(JD.device.scene == "weixin" || JD.device.scene == "wxwork"){
+        }
+    }
+</script>
+    <div class="qq_menu_layer_v2" style="display:none;z-index:1005" id="__mqqmenu">
+</div>
+
+
+
+
+
+    <header class="jd-header">
+    <div class="jd-header-new-title">商城秒杀</div>
+
+    <!-- </div> -->
+    </header>
+    <!-- </div> -->
+    <!-- <style>.seckill_tab{position:sticky;position:-webkit-sticky;}</style> -->
+    <div class="wx_wrap J_wrap" vm-container="content">
+        <style> .seckill_tab.fixed{position: fixed;top:0}.seckill_tab_jssticky+.seckill_tab_height{height:50px}.seckill_tab_jssticky{top:45px;position: fixed} </style>
+
+
+
+        <div class="seckill_tab_height"></div>
+        <div> <div class="seckill_items">
+            <div class="seckill_items_head"> <h3 class="seckill_items_tit">抢购中 先下单先得哦</h3>
+                <!--<div class="seckill_items_timer"> <svg><use xlink:href="#icon_timer"></use></svg>-->
+                    <!--<strong>距结束</strong>-->
+                    <!--<span>00</span><em>:</em><span>05</span><em>:</em><span>39</span> -->
+                <!--</div> -->
+            </div>
+            <style>.seckill_items_brand .seckill_items_meta:before{display:none}.seckill_items_list>a.bg_stamp{    background-position-x:10%;}</style>
+        <div class="seckill_items_list">
+        {% for vo in shops %}
+        <a href="{% url 'market:detail' vo.id %}" >
+            <img class="seckill_items_cover"  src="/upload/{{ vo.pic }}">
+            <div class="seckill_items_meta">
+                <h4 class="seckill_items_fn">{{ vo.name }}</h4>
+                <p class="seckill_items_prices"><span>¥<strong>{{ vo.price }}</strong></span><del>¥{{ vo.oldprice }}</del></p>
+                <p class="seckill_items_sq"> <button class="seckill_items_buy">立即抢购</button>
+                    <span class="seckill_items_reserve"><strong>已售 {{ vo.percent }}%</strong><span class="seckill_items_reserve_bar"><em style="width: {{ vo.percent }}%;"></em></span></span> </p>
+            </div>
+        </a>
+        {% endfor %}
+
+        <div id="wxloader" style="padding: 50px 0px; background-color: rgb(255, 255, 255); display: none;">
+          <div class="wx_loading2"><i class="wx_loading_icon"></i></div>
+        </div>
+
+
+        <div id="J_wxsqTips" class="wxsq_topTips" style="margin: 0px;">
+            <p><strong>网站说明</strong>：</p>
+            <p>声明：网站为个人网站，仅用作学习，样式主要仿照京东</p>
+            <!--<p>划线价：商品展示的划横线价格为参考价，该价格可能是品牌专柜标价、商品吊牌价或  由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）或该商品在京东平台上曾  经展示过的销售价；由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价  等可能会与您购物时展示的不一致，该价格仅供您参考。</p>-->
+            <p><strong>小贴士</strong>：积分可以模拟进行购物，新用户注册有5000初始积分，在个人中心可以查看个人积分</p>
+            <span id="closeBtmTip" onclick="document.querySelectorAll(&#39;.wxsq_topTips&#39;)[0].style.display=&#39;none&#39;">关闭</span>
+        </div>
+        <div id="jdappdl"></div>
+    </div>
+
+
+    <div vm-container="common">
+        <div class="wx_nav wx_nav_custom">
+            <a href="javascript:;" class="on" event_id="MHandSecKill_JDSecKill" event_level="" event_param="">
+                <img class="highlight" src="{% static 'img/585b9f36Nab278f9e.png' %}">
+                <img class="normal" src="{% static 'img/585b9f36N633d8e72.png' %}"> <span>商城秒杀</span> </a>
+            <a href="/index/order_list" class="" event_id="MHandSecKill_BrandTab" event_level="2" event_param="">
+                <img class="highlight" src="{% static 'img/59268be5N542317f4.png' %}">
+                <img class="normal" src="{% static 'img/59268beaN12f5b721.png' %}"> <span>我的订单</span> </a>
+            <a href="/index/person" class="" event_id="MHandSecKill_BrandSecKill" event_level="2" event_param="">
+                <img class="highlight" src="{% static 'img/591a6f74N736d1060.png' %}"> <img class="normal" src="{% static 'img/591a6f7cNb11ad011.png' %}"> <span>个人中心</span> </a>
+
+    </div>
+
+
+<style type="text/css">
+.wxsq_topTips {position: relative;padding: 8px 35px 8px 8px;background: #fffad0;font-size: 10px;margin-bottom: 45px;}
+.wxsq_topTips span {display: block;width: 40px;height: 40px;line-height: 40px;position: absolute;top: 0;right: 0;color: #3985ff;text-align: center;}
+</style>
+
+
+
+

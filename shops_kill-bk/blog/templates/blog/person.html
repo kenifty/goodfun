@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head lang="en">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="stylesheet" href="{% static 'css/mall.css' %}" type="text/css" />
+        <link combofile="/fd/h5/wx/seckill/index.shtml" rel="stylesheet" href="{% static 'css/index.min_f89eeb50.css' %}" onerror="__reloadResource(this)">
+        <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'layui/layui.all.js' %}"></script>
+
+        <title>个人中心</title>
+    </head>
+    <body class="body_color_user">
+        <div class="mall_main">
+            <div id="child_header">
+                <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+                <div class="current_location"><span>个人中心</span></div>
+            </div>
+            {% csrf_token %}
+            <div class="wx_wrap">
+                <a href="javascript:;">
+                    <div class="person_top">
+                        <img class="top_bj" src="{% static 'img/top_bj.jpg' %}">
+                        <div class="per_con">
+                            <div class="user_photo">
+                                <img src="{% static 'img/huiyuan.jpg' %}" >
+                                <span></span>
+                            </div>
+                            <div class="name_right">
+                                <!--<p class="p1">会员ID：{{ list.id }}</p>-->
+                                <p class="p1">用户名：{{ list.name }}</p>
+                                <p class="p1">注册时间：{{ list.addtime }}</p>
+                                <p class="p2">积分值：{{ list.score }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+
+
+                <ul class="menu_list">
+                    <li class="tiao" ><a href="/index/data_edit">修改地址</a></li>
+
+                    <li class="tiao" ><a href="/index/password_edit">修改密码</a></li>
+
+                    <li class="tiao"><a href="/index/points_list">我的积分</a></li>
+
+                </ul>
+
+                <div class="set_up">
+                     <a href="javascript:;" class="quit_btn" onclick="exit()">退出当前账号</a>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <div vm-container="common">
+        <div class="wx_nav wx_nav_custom">
+            <a href="/index" class="" event_id="MHandSecKill_JDSecKill" event_level="" event_param="">
+                <img class="highlight" src="{% static 'img/585b9f36Nab278f9e.png' %}">
+                <img class="normal" src="{% static 'img/585b9f36N633d8e72.png' %}"> <span>商城秒杀</span>
+            </a>
+            <a href="/index/order_list" class="" event_id="MHandSecKill_BrandTab" event_level="2" event_param="">
+                <img class="highlight" src="{% static 'img/59268be5N542317f4.png' %}">
+                <img class="normal" src="{% static 'img/59268beaN12f5b721.png' %}"> <span>我的订单</span>
+            </a>
+            <a href="javascript:;" class="on" event_id="MHandSecKill_BrandSecKill" event_level="2" event_param="">
+                <img class="highlight" src="{% static 'img/591a6f74N736d1060.png' %}">
+                <img class="normal" src="{% static 'img/591a6f7cNb11ad011.png' %}"> <span>个人中心</span>
+            </a>
+
+        </div>
+        <script>
+            function exit(){
+                var csrf = $('input').val();
+                //询问框
+                layer.confirm('确认要退出吗？', {
+                  btn: ['确认','取消'] //按钮
+                }, function(){  //确认事件
+                    var index = layer.load(0, {shade: false});  //加载中图标
+                    $.post('/index/exit_ajax/',{'csrfmiddlewaretoken': csrf,},function(data){
+                        layer.close(index); //停止加载图标
+                        if(data.res=='1'){
+                            layer.alert(data.msg)
+                            window.location.href='/index/'
+                            // alert(1);
+                        }else{
+                            layer.alert(data.msg);
+                        }
+                    },'json')
+                }, function(){
+                    return
+                });
+
+            }
+        </script>
+</body>
+</html>

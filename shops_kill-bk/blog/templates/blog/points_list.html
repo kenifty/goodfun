@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>我的积分</title>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/mall.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
+    <script src="{% static 'layui/layui.all.js' %}"></script>
+</head>
+<body class="body_color">
+<div class="mall_main">
+<div id="child_header">
+    <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+    <div class="current_location"><span>我的积分</span></div>
+</div>
+
+<div class="my_points">
+    <div class="all_points"><img src="{% static 'img/points_img.jpg' %}"><span><b>{{ Uscore }}</b>积分</span></div>
+    {% for x in score_list %}
+    <p>
+        <span>消费积分</span><em>-{{ x.paymoney }}</em>
+        <span class="sp_1"><a href="">{{ x.shopname }}</a></span><time>{{ x.addtime }}</time>
+    </p>
+    {% endfor %}
+    <!--<p>-->
+        <!--<span>购物抵扣积分</span><em>-13</em>-->
+        <!--<span class="sp_1"><a href="">巧克力蛋糕一份</a></span><time>2015-10-10 05:40:10</time>-->
+    <!--</p>-->
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>

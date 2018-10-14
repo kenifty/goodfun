@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>编辑地址</title>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/mall.css' %}" type="text/css" />
+    <link combofile="/fd/h5/wx/seckill/index.shtml" rel="stylesheet" href="{% static 'css/index.min_f89eeb50.css' %}" onerror="__reloadResource(this)">
+
+    <script src="{% static 'layui/layui.all.js' %}"></script>
+</head>
+<body>
+<div class="mall_main">
+<div id="child_header">
+    <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+    <div class="current_location"><span>编辑地址</span></div>
+    <div class="next_operate"><a href="javascript:;" onclick="edit_data_ajax()"><span>保存</span></a></div>
+</div>
+<div class="address_edit">
+    {% csrf_token %}
+    <ul>
+        <li>
+            <span>联系电话</span><input type="text" value="{{ Uinfo.phone }}" id="phone">
+        </li>
+        <!--<li>-->
+         <!--<form name="form2" method="post" action="">-->
+          <!--<p class="gender">-->
+           <!--<label>-->
+            <!--<input type="radio" name="gender" value="man" id="gender_2">-->
+            <!--先生</label>-->
+           <!--<label>-->
+            <!--<input type="radio" name="gender" value="woman" id="gender_3">-->
+            <!--女士</label>-->
+           <!--<br>-->
+          <!--</p>-->
+         <!--</form>-->
+        <!--</li>-->
+        <!--<li><span>手机号码</span><input name="tel" type="text" value="18921120000" maxlength="11"></li>-->
+        <!--<li><span>所在地区</span>-->
+            <!--<div id="area_adr" class="area_adr">-->
+            <!--<div class="m_zlxg" id="shengfen">-->
+                <!--<p title="">选择省份</p>-->
+                <!--<div class="m_zlxg2">-->
+                    <!--<ul></ul>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="m_zlxg" id="chengshi">-->
+                <!--<p title="">选择城市</p>-->
+                <!--<div class="m_zlxg2">-->
+                    <!--<ul></ul>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="m_zlxg" id="quyu">-->
+                <!--<p title="">选择区域</p>-->
+                <!--<div class="m_zlxg2">-->
+                    <!--<ul></ul>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<input id="sfdq_num" type="hidden" value="" />-->
+            <!--<input id="csdq_num" type="hidden" value="" />-->
+            <!--<input id="sfdq_tj" type="hidden" value="" />-->
+            <!--<input id="csdq_tj" type="hidden" value="" />-->
+            <!--<input id="qydq_tj" type="hidden" value="" />-->
+        <!--</div></li>-->
+        <li><span>收货地址</span><textarea style="width:70%;height:100px" type="text"  id="adress">{{ Uinfo.adress }}</textarea></li>
+    </ul>
+</div>
+</div>
+
+<script type="text/javascript" src="js/address.js"></script>
+<script type="text/javascript">
+// $(function(){
+//
+// 	$("#area_adr").sjld("#shengfen","#chengshi","#quyu");
+//
+// });
+    function edit_data_ajax(){
+        var phone = $('#phone').val()
+        var adress = $('#adress').val()
+        var csrf = $('input').val()
+        layer.confirm('确认要修改联系电话及地址吗？', {
+          btn: ['确认','取消'] //按钮
+        }, function(){  //确认事件
+            var index = layer.load(0, {shade: false});  //加载中图标
+            $.post('/index/edit_data_ajax/',{'csrfmiddlewaretoken': csrf,'phone':phone, 'adress':adress},function(data){
+                layer.close(index); //停止加载图标
+                if(data.res=='1'){
+                    layer.alert(data.msg)
+                    window.location.href='/index/person';
+                    // alert(1);
+                }else{
+                    layer.alert(data.msg);
+                }
+            },'json')
+        }, function(){
+            return
+        });
+
+    }
+</script>
+
+</body>
+</html>

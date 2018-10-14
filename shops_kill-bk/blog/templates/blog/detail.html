@@ -1,0 +1,175 @@
+<!doctype html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--<meta name="description" content="">-->
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>秒杀</title>
+        <link rel="stylesheet" href="{% static 'css/detail.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
+        <link rel="stylesheet" href="{% static 'css/mall.css' %}" type="text/css" />
+        <style>
+
+
+        </style>
+    </head>
+
+    <body>
+        <!--<header id="header" class="header" style="">-->
+                <!--<span style="font-size: 18px">秒杀</span>-->
+        <!--</header>-->
+        <div id="child_header" style="background-color:#eee;border:none">
+            <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+            <div class="current_location"><span>秒杀</span></div>
+        </div>
+        {% csrf_token %}
+        <input type="hidden" id="shopid" value="{{ data.id }}">
+        <div class="top">
+            <img src="/upload/{{ data.pic }}" alt="" style="width:100%;height:400px">
+        </div>
+
+        <div class="center-1">
+            <div class='pirce-bk-left' style="">
+                <div class="price-sale" style="">￥{{ data.price }}</div>
+                <div class="price-old" style="">
+                    <span>{{ data.oldprice }}</span>
+
+                </div>
+                <div style="font-size:12px;margin-top:40px;float:right">
+                    {{ data.stock }}件
+                </div>
+                <div class="" style="float:right">
+                    <img src="{% static 'img/miaosha.png' %}" style="width:15px;margin-top:40px">
+                </div>
+            </div>
+            <div class='count-down' style="">
+                <div class='count-down-text'>距离秒杀结束还剩</div>
+                <div class="time-item">
+                    <span id="day_show">0天</span>
+                    <strong id="hour_show">0时</strong>
+                    <strong id="minute_show">0分</strong>
+                    <strong id="second_show">0秒</strong>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;height:10px"></div>
+        <div class="center-2">
+            <div class="shops-title">{{ data.name }}
+            </div>
+            <div class="been-sales">
+                <div>已售</div>
+                <div>{{ data.sales }}</div>
+            </div>
+        </div>
+
+        <div style="clear:both"></div>
+        <div style="margin: 10px 0;background-color: #eee;height:20px"></div>
+        <div class="center-3">
+            {% autoescape off %}
+                {{ data.text }}
+            {% endautoescape %}
+        </div>
+        <footer class="footer">
+            <div class="contact">联系客服</div>
+            <div class="seckill" style="display: none" id="start-kill" onclick="kill()">立即秒杀</div>
+            <div class="seckill" style="background-color: #ccc;display: block;" id="stop-kill">秒杀未开始</div>
+        </footer>
+        <script type="text/javascript" src="{% static 'js/flexible.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
+        <script src="{% static 'layui/layui.all.js' %}"></script>
+        <script type="text/javascript">
+        var intDiff = parseInt(360000);//倒计时总秒数量
+        var Stime = parseInt('{{ start_time | safe }}');
+        var Etime = parseInt('{{ end_time | safe }}');
+        function timer(intDiff){
+
+            console.log(Stime)
+            console.log('sdsad')
+            window.setInterval(function(){
+                var Ntime = parseInt(Date.parse(new Date()))/1000; //获取当前时间戳保留到秒
+                if( Ntime > Etime ){ //总共三种情况：秒杀结束，秒杀未开始，秒进行中
+                     $('.count-down-text').text( '秒杀已结束,下次请早');
+                     $('#start-kill').css('display','none');
+                     $('#stop-kill').css('display','block');
+                     $('#stop-kill').text('秒杀已结束')
+                    intDiff = 0
+                }else{
+                    if( Ntime < Stime ){
+                        $('.count-down-text').text( '距离秒杀开始还有');
+                        $('#start-kill').css('display','none');
+                        $('#stop-kill').css('display','block');
+                        $('#stop-kill').text('秒杀未开始')
+                        intDiff = Stime - Ntime ;
+                    }else{
+                        $('.count-down-text').text( '距离秒杀结束还有');
+                        $('#start-kill').css('display','block');
+                        $('#stop-kill').css('display','none');
+                        $('#stop-kill').text('秒杀')
+                        intDiff = Etime - Ntime ;
+                    }
+                }
+
+
+                var day=0,
+                    hour=0,
+                    minute=0,
+                    second=0;//时间默认值
+
+                if(intDiff > 0){
+                    day = Math.floor(intDiff / (60 * 60 * 24));
+                    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                }
+
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+                $('#day_show').html(day+"天");
+                $('#hour_show').html('<s id="h"></s>'+hour+'时');
+                $('#minute_show').html('<s></s>'+minute+'分');
+                $('#second_show').html('<s></s>'+second+'秒');
+                intDiff--;
+            }, 1000);
+        }
+
+        $(function(){
+            timer(intDiff);
+        });
+
+
+        function kill(){
+            var price = '{{ data.price | safe }}' ;
+            var csrf = $('input').val()
+            var sid = $('#shopid').val();
+            layer.confirm('是否支付'+price+'积分进行秒杀？', {
+                  btn: ['确认','取消'] //按钮
+                }, function(){  //确认事件
+                    var index = layer.load(0, {shade: false});  //加载中图标
+                    $.post('/index/kill_ajax/',{'csrfmiddlewaretoken': csrf,'sid':sid,},function(data){
+                        layer.close(index); //停止加载图标
+                            if(data.res=='1'){  //秒杀成功,跳转订单列表页面
+                                layer.alert(data.msg)
+                                window.location.href='/index/order_list'
+                            }else if(data.res=='-2'){ //未登录
+                                layer.confirm('检测到未登录，是否跳转登录页？', {
+                                  btn: ['确认','取消'] //按钮
+                                }, function(){  //确认事件
+                                    window.location.href='/index/login'
+                                }, function(){
+                                    return
+                                });
+                            }else{
+                                layer.alert(data.msg);
+                            }
+                    },'json')
+                }, function(){  //取消支付积分事件
+                    return
+                });
+
+
+        }
+
+        </script>
+    </body>
+</html>

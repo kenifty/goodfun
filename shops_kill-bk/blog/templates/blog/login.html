@@ -1,0 +1,98 @@
+<!doctype html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>登录</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
+        <link rel="stylesheet" href="{% static 'css/mall.css' %}" type="text/css" />
+        <!--<link rel="stylesheet" href="{% static 'css/weui.css' %}">-->
+    </head>
+    <body style="background-color: #f9f2e3;">
+        <div id="child_header" style="width:100%;height:50px">
+            <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+            <div class="current_location"><span>登录</span></div>
+        </div>
+
+        <div class="container" style="margin-top: 15px;">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    <form class="form-horizontal">
+                        {% csrf_token %}
+                        <span class="heading">用户登录</span>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="uname" placeholder="用户名">
+                            <!--<i class="fa fa-user"></i>-->
+                        </div>
+
+                        <div class="form-group help">
+                            <input type="password" class="form-control" id="password" placeholder="密　码">
+                            <!--<i class="fa fa-lock"></i>-->
+                            <!--<a href="#" class="fa fa-question-circle"></a>-->
+                        </div>
+
+                        <div class="form-group help">
+                            <input type="text" class="form-control" id="vcode" placeholder="验证码" style="width:50%;float: left">
+                            <img src="/index/verify_code/" onclick="change_img(this)">
+                        </div>
+
+                        <div class="form-group">
+
+                            <button type="button" class="btn btn-success" onclick="login()">登录</button>
+                            <button type="button" class="btn btn-warning" style="float:left" onclick="window.location.href='/index/regiter'">注册</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/sha1.js' %}"></script>
+        <script src="{% static 'layui/layui.all.js' %}"></script>
+
+        <script>
+            function change_img(obj){ //点击切换验证码
+                $(obj).attr('src',$(obj).attr('src')+1)
+            }
+
+
+            function login(){
+                var uname = $('#uname').val();
+                var password = $('#password').val();
+                var vcode = $('#vcode').val();
+                var csrf = $('input').val();
+
+                if(uname==''  ){
+                    layer.msg("用户名不能为空");
+                    return false;
+                }
+                if(password=='' ){
+                    layer.msg("密码不能为空");
+                    return false;
+                }
+                if(vcode=='' ){
+                    layer.msg("图形验证码不能为空");
+                    return false;
+                }
+                var password=hex_sha1(password);
+
+                var index = layer.load(0, {shade: false});  //加载中图标
+                $.post('/index/login_ajax/',{'csrfmiddlewaretoken': csrf,'uname':uname,'password':password,'vcode':vcode},function(data){
+                    layer.close(index); //停止加载图标
+                    if(data.res=='1'){
+                        layer.alert(data.msg)
+                        window.location.href='/index/person';
+                        // alert(1);
+                    }else{
+                        layer.alert(data.msg);
+                    }
+                },'json')
+            }
+        </script>
+    </body>
+</html>
