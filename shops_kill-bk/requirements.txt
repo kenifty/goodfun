@@ -7,7 +7,7 @@ cffi==1.11.5
 chardet==3.0.4
 cryptography==2.3.1
 DateTime==4.3
-Django==2.1.1
+Django==2.2.10
 DjangoUeditor==1.8.143
 future==0.16.0
 get==1.0.3
